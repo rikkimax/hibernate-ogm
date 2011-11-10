@@ -28,7 +28,8 @@
     @author Hardy Ferentschik
     @author Emmanuel Bernard <emmanuel@hibernate.org>
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -38,7 +39,7 @@
         <version>3.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <artifactId>hibernate-ogm-core</artifactId>
     <packaging>jar</packaging>
 
@@ -73,19 +74,19 @@
             <artifactId>infinispan-lucene-directory</artifactId>
             <optional>true</optional>
         </dependency>
-        
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-testing</artifactId>
             <!-- <scope>test</scope> TODO fix this -->
         </dependency>
-<!--        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-core</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency> -->
+        <!--        <dependency>
+           <groupId>org.infinispan</groupId>
+           <artifactId>infinispan-core</artifactId>
+           <type>test-jar</type>
+           <scope>test</scope>
+       </dependency> -->
         <!-- this is optional on core :( and needed for testing -->
         <dependency>
             <groupId>javassist</groupId>
@@ -112,6 +113,11 @@
             <artifactId>log4j</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.6.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -120,30 +126,33 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                   <forkMode>once</forkMode>
+                    <forkMode>once</forkMode>
                     <excludes>
                         <!-- Skip a long-running test of a prototype class -->
                         <exclude>**/ClusteredConcurrentTimestampRegionTestCase.java</exclude>
                     </excludes>
-                     <!-- 
-                          java.net.preferIPv4Stack :
-                             There are problems with multicast and IPv6 on some
-                          OS/JDK combos, so we tell Java to use IPv4. If you
-                          have problems with multicast when running the tests
-                          you can try setting this to 'false', although typically
-                          that won't be helpful.
-                          
-                          jgroups.ping.timeout=500 :
-                             Tell JGroups to only wait a short time for PING 
-                          responses before determining coordinator. Speeds cluster
-                          formation during integration tests. (This is too
-                          low a value for a real system; only use for tests.)
-                          
-                          jgroups.udp.enable_bundling=false :
-                             Disable the JGroups message bundling feature
-                          to speed tests and avoid FLUSH issue
-                           -->
-                    <argLine>-Djgroups.bind_addr=${jgroups.bind_addr} -Dhibernate.test.validatefailureexpected=true -Djava.net.preferIPv4Stack=true -Djgroups.ping.timeout=500 -Djgroups.ping.num_initial_members=1 -Djgroups.udp.enable_bundling=false</argLine>
+                    <!--
+                   java.net.preferIPv4Stack :
+                      There are problems with multicast and IPv6 on some
+                   OS/JDK combos, so we tell Java to use IPv4. If you
+                   have problems with multicast when running the tests
+                   you can try setting this to 'false', although typically
+                   that won't be helpful.
+
+                   jgroups.ping.timeout=500 :
+                      Tell JGroups to only wait a short time for PING
+                   responses before determining coordinator. Speeds cluster
+                   formation during integration tests. (This is too
+                   low a value for a real system; only use for tests.)
+
+                   jgroups.udp.enable_bundling=false :
+                      Disable the JGroups message bundling feature
+                   to speed tests and avoid FLUSH issue
+                    -->
+                    <argLine>-Djgroups.bind_addr=${jgroups.bind_addr} -Dhibernate.test.validatefailureexpected=true
+                        -Djava.net.preferIPv4Stack=true -Djgroups.ping.timeout=500 -Djgroups.ping.num_initial_members=1
+                        -Djgroups.udp.enable_bundling=false
+                    </argLine>
                     <skipExec>${skipUnitTests}</skipExec>
                 </configuration>
             </plugin>
@@ -224,5 +233,5 @@
                 <skipUnitTests>false</skipUnitTests>
             </properties>
         </profile>
-     </profiles>
+    </profiles>
 </project>
