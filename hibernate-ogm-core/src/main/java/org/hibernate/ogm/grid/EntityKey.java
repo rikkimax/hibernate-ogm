@@ -28,16 +28,36 @@ import java.io.Serializable;
  * @author Emmanuel Bernard
  */
 public final class EntityKey implements Serializable {
+    /**
+     * The table which we represent.
+     */
 	private final String table;
+
+    /**
+     * The id (row) in the table which we represent.
+     */
 	private final Serializable id;
+
+    /**
+     * The hashcode of this class based on the table and the id.
+     */
 	private final int hashCode;
 
+    /**
+     * Constructor to create the EntityKey.
+     * @param table The table which we represent.
+     * @param id The id (row) in the table which we represent.
+     */
 	public EntityKey(String table, Serializable id) {
 		this.table = table;
 		this.id = id;
 		hashCode = generateHashCode();
 	}
 
+    /**
+     * Turn this class to a string with table and its id.
+     * @return The string representation of this class.
+     */
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
@@ -48,6 +68,11 @@ public final class EntityKey implements Serializable {
 		return sb.toString();
 	}
 
+    /**
+     * Is this class equal to something else?
+     * @param o The object to compare to.
+     * @return Is it equal?
+     */
 	@Override
 	public boolean equals(Object o) {
 		if ( this == o ) {
@@ -69,11 +94,19 @@ public final class EntityKey implements Serializable {
 		return true;
 	}
 
+    /**
+     * Get the hash value.
+     * @return The hash value.
+     */
 	@Override
 	public int hashCode() {
 		return hashCode;
 	}
 
+    /**
+     * Creates a hash based on the table and the id value.
+     * @return The hash.
+     */
 	private int generateHashCode() {
 		int result = table.hashCode();
 		result = 31 * result + ( id != null ? id.hashCode() : 0 );
