@@ -79,4 +79,20 @@ public final class EntityKey implements Serializable {
 		result = 31 * result + ( id != null ? id.hashCode() : 0 );
 		return result;
 	}
+
+    /**
+     * Get the table key.
+     * @return The table key.
+     */
+    public String getTable() {
+        return table;
+    }
+
+    /**
+     * Get the Serialized ID in the table.
+     * @return The serialized ID in the table.
+     */
+    public Serializable getId() {
+        return id;
+    }
 }
