@@ -86,8 +86,7 @@ public class MongoDBDialect implements GridDialect {
      */
     private DBObject getDBObject(EntityKey key) {
         DBCollection dbCollection = provider.getDatabase().getCollection(key.getTable());
-        DBObject dbObject = dbCollection.findOne(key.getId());
-        return dbObject;
+        return dbCollection.findOne(key.getId());
     }
 
     /**
