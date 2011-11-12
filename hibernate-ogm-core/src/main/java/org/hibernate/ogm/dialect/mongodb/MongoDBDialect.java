@@ -56,7 +56,6 @@ public class MongoDBDialect implements GridDialect {
         this.provider = provider;
     }
 
-    @Override
     public LockingStrategy getLockingStrategy(Lockable lockable, LockMode lockMode) {
         // How does this relate to MongoDB?
         // Do we need to implement something?
@@ -68,7 +67,6 @@ public class MongoDBDialect implements GridDialect {
      * @param key The EntityKey.
      * @return The Tuple based off the key.
      */
-    @Override
     public Tuple getTuple(EntityKey key) {
         DBCollection dbCollection = provider.getDatabase().getCollection(key.getTable());
         DBObject dbObject = dbCollection.findOne(key.getId());
@@ -94,7 +92,6 @@ public class MongoDBDialect implements GridDialect {
      * @param key The key that represents the document.
      * @return The Tuple that represents the new document.
      */
-    @Override
     public Tuple createTuple(EntityKey key) {
         DBObject dbObject = new BasicDBObject();
         if (key.getId() != null)
@@ -108,7 +105,6 @@ public class MongoDBDialect implements GridDialect {
      * @param tuple The Tuple to update to.
      * @param key The key that represents the document to update to.
      */
-    @Override
     public void updateTuple(Tuple tuple, EntityKey key) {
         BasicDBObject basicDBObject = new BasicDBObject();
         for (String tKey : tuple.getColumnNames()) {
@@ -121,7 +117,6 @@ public class MongoDBDialect implements GridDialect {
      * Remove a document from a collection or drop a collection.
      * @param key The key that represents the collection and or document.
      */
-    @Override
     public void removeTuple(EntityKey key) {
         if (key.getId() != null)
             provider.getDatabase().getCollection(key.getTable()).remove(getDBObject(key));
@@ -129,32 +124,26 @@ public class MongoDBDialect implements GridDialect {
             provider.getDatabase().getCollection(key.getTable()).drop();
     }
 
-    @Override
     public Association getAssociation(AssociationKey key) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public Association createAssociation(AssociationKey key) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void updateAssociation(Association association, AssociationKey key) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void removeAssociation(AssociationKey key) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public Tuple createTupleAssociation(AssociationKey associationKey, RowKey rowKey) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void nextValue(RowKey key, IntegralDataTypeHolder value, int increment, int initialValue) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
