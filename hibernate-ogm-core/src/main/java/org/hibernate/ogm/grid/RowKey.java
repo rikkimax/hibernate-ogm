@@ -29,60 +29,72 @@ import java.util.Arrays;
  * @author Emmanuel Bernard
  */
 public final class RowKey implements Serializable {
-	private final String table;
-	private final String[] columns;
-	//column value types do have to be serializable so RowKey can be serializable
-	//should it be a Serializable[] type? It seems to be more pain than anything else
-	private final Object[] columnValues;
+    private final String table;
+    private final String[] columns;
+    //column value types do have to be serializable so RowKey can be serializable
+    //should it be a Serializable[] type? It seems to be more pain than anything else
+    private final Object[] columnValues;
 
-	public RowKey(String table, String[] columns, Object[] columnValues) {
-		this.table = table;
-		this.columns = columns;
-		this.columnValues = columnValues;
-	}
+    public RowKey(String table, String[] columns, Object[] columnValues) {
+        this.table = table;
+        this.columns = columns;
+        this.columnValues = columnValues;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if ( this == o ) {
-			return true;
-		}
-		if ( o == null || RowKey.class != o.getClass() ) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || RowKey.class != o.getClass()) {
+            return false;
+        }
 
-		RowKey that = ( RowKey ) o;
+        RowKey that = (RowKey) o;
 
-		// Probably incorrect - comparing Object[] arrays with Arrays.equals
-		if ( !Arrays.equals( columnValues, that.columnValues ) ) {
-			return false;
-		}
-		if ( !Arrays.equals( columns, that.columns ) ) {
-			return false;
-		}
-		if ( !table.equals( that.table ) ) {
-			return false;
-		}
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(columnValues, that.columnValues)) {
+            return false;
+        }
+        if (!Arrays.equals(columns, that.columns)) {
+            return false;
+        }
+        if (!table.equals(that.table)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = table.hashCode();
-		result = 31 * result + Arrays.hashCode( columns );
-		result = 31 * result + Arrays.hashCode( columnValues );
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = table.hashCode();
+        result = 31 * result + Arrays.hashCode(columns);
+        result = 31 * result + Arrays.hashCode(columnValues);
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append( "RowKey" );
-		sb.append( "{table='" ).append( table ).append( '\'' );
-		sb.append( ", columns=" ).append( columns == null ? "null" : Arrays.asList( columns ).toString() );
-		sb.append( ", columnValues=" )
-				.append( columnValues == null ? "null" : Arrays.asList( columnValues ).toString() );
-		sb.append( '}' );
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("RowKey");
+        sb.append("{table='").append(table).append('\'');
+        sb.append(", columns=").append(columns == null ? "null" : Arrays.asList(columns).toString());
+        sb.append(", columnValues=")
+                .append(columnValues == null ? "null" : Arrays.asList(columnValues).toString());
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public final String getTable() {
+        return table;
+    }
+
+    public final String[] getColumns() {
+        return columns;
+    }
+
+    public final Object[] getColumnsValues() {
+        return columnValues;
+    }
 }
