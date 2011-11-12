@@ -78,21 +78,36 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
      */
     private DB database;
 
+    /**
+     * Get the dialect which we use.
+     * @return The dialect which we use class.
+     */
     @Override
     public Class<? extends GridDialect> getDefaultDialect() {
         return MongoDBDialect.class;
     }
 
+    /**
+     * Values from configuration provided set for us to use..
+     * @param configurationValues The configuration.
+     */
     @Override
     public void configure(Map configurationValues) {
         cfg = configurationValues;
     }
 
+    /**
+     * Inject a service into this datastore provider.
+     * @param serviceRegistry The service.
+     */
     @Override
     public void injectServices(ServiceRegistryImplementor serviceRegistry) {
         // Currently we do nothing or should we?
     }
 
+    /**
+     * Start the database connection.
+     */
     @Override
     public void start() {
         String host = (String) cfg.get(SERVER_PROP);
@@ -117,6 +132,9 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
         }
     }
 
+    /**
+     * Stop the database connection.
+     */
     @Override
     public void stop() {
         if (mongo != null) {
