@@ -24,7 +24,7 @@ import com.mongodb.DB;
 import com.mongodb.Mongo;
 import org.hibernate.ogm.datastore.spi.DatastoreProvider;
 import org.hibernate.ogm.dialect.GridDialect;
-import org.hibernate.ogm.dialect.mongodb.impl.MongoDBDialect;
+import org.hibernate.ogm.dialect.mongodb.MongoDBDialect;
 import org.hibernate.ogm.util.impl.Log;
 import org.hibernate.ogm.util.impl.LoggerFactory;
 import org.hibernate.ogm.util.impl.StringHelper;
@@ -80,27 +80,27 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
 
     /**
      * Get the dialect which we use.
+     *
      * @return The dialect which we use class.
      */
-    @Override
     public Class<? extends GridDialect> getDefaultDialect() {
         return MongoDBDialect.class;
     }
 
     /**
      * Values from configuration provided set for us to use..
+     *
      * @param configurationValues The configuration.
      */
-    @Override
     public void configure(Map configurationValues) {
         cfg = configurationValues;
     }
 
     /**
      * Inject a service into this datastore provider.
+     *
      * @param serviceRegistry The service.
      */
-    @Override
     public void injectServices(ServiceRegistryImplementor serviceRegistry) {
         // Currently we do nothing or should we?
     }
@@ -108,7 +108,6 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
     /**
      * Start the database connection.
      */
-    @Override
     public void start() {
         String host = (String) cfg.get(SERVER_PROP);
         String port = (String) cfg.get(PORT_PROP);
@@ -135,7 +134,6 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
     /**
      * Stop the database connection.
      */
-    @Override
     public void stop() {
         if (mongo != null) {
             database = null;
@@ -145,6 +143,7 @@ public class MongoDBDatastoreProvider implements DatastoreProvider, Startable, S
 
     /**
      * Get the database from MongoDB.
+     *
      * @return The database from MongoDB.
      */
     public DB getDatabase() {
