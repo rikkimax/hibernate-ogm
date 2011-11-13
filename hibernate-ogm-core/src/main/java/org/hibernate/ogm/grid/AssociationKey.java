@@ -20,10 +20,10 @@
  */
 package org.hibernate.ogm.grid;
 
+import org.hibernate.annotations.common.AssertionFailure;
+
 import java.io.Serializable;
 import java.util.Arrays;
-
-import org.hibernate.annotations.common.AssertionFailure;
 
 /**
  * Represents the key used to link a property value and the id of it's owning entity
@@ -31,64 +31,76 @@ import org.hibernate.annotations.common.AssertionFailure;
  * @author Emmanuel Bernard
  */
 public final class AssociationKey implements Serializable {
-	private final String table;
-	private final String[] columnNames;
-	//column value types do have to be serializable so AssociationKey is serializable
-	//should it be a Serializable[] type? It seems to be more pain than anything else
-	private final Object[] columnValues;
+    private final String table;
+    private final String[] columnNames;
+    //column value types do have to be serializable so AssociationKey is serializable
+    //should it be a Serializable[] type? It seems to be more pain than anything else
+    private final Object[] columnValues;
 
-	public AssociationKey(String table, String[] columnNames, Object[] columnValues) {
-		if ( columnNames.length != columnValues.length ) {
-			throw new AssertionFailure( "Column names do not match column values" );
-		}
-		this.table = table;
-		this.columnNames = columnNames;
-		this.columnValues = columnValues;
-	}
+    public AssociationKey(String table, String[] columnNames, Object[] columnValues) {
+        if (columnNames.length != columnValues.length) {
+            throw new AssertionFailure("Column names do not match column values");
+        }
+        this.table = table;
+        this.columnNames = columnNames;
+        this.columnValues = columnValues;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if ( this == o ) {
-			return true;
-		}
-		if ( o == null || AssociationKey.class != o.getClass() ) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || AssociationKey.class != o.getClass()) {
+            return false;
+        }
 
-		AssociationKey that = ( AssociationKey ) o;
+        AssociationKey that = (AssociationKey) o;
 
-		// Probably incorrect - comparing Object[] arrays with Arrays.equals
-		if ( !Arrays.equals( columnValues, that.columnValues ) ) {
-			return false;
-		}
-		if ( !Arrays.equals( columnNames, that.columnNames ) ) {
-			return false;
-		}
-		if ( !table.equals( that.table ) ) {
-			return false;
-		}
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(columnValues, that.columnValues)) {
+            return false;
+        }
+        if (!Arrays.equals(columnNames, that.columnNames)) {
+            return false;
+        }
+        if (!table.equals(that.table)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = table.hashCode();
-		result = 31 * result + Arrays.hashCode( columnNames );
-		result = 31 * result + Arrays.hashCode( columnValues );
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = table.hashCode();
+        result = 31 * result + Arrays.hashCode(columnNames);
+        result = 31 * result + Arrays.hashCode(columnValues);
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append( "AssociationKey" );
-		sb.append( "{table='" ).append( table ).append( "'" );
-		for( int index = 0 ; index < columnNames.length ; index++) {
-			sb.append("\n\t").append( columnNames[index] ).append( " = '" ).append( columnValues[index] ).append( "'" );
-		}
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("AssociationKey");
+        sb.append("{table='").append(table).append("'");
+        for (int index = 0; index < columnNames.length; index++) {
+            sb.append("\n\t").append(columnNames[index]).append(" = '").append(columnValues[index]).append("'");
+        }
 
-		sb.append( "\n}" );
-		return sb.toString();
-	}
+        sb.append("\n}");
+        return sb.toString();
+    }
+
+    public final String getTable() {
+        return table;
+    }
+
+    public final String[] getColumns() {
+        return columnNames;
+    }
+
+    public final Object[] getColumnsValues() {
+        return columnValues;
+    }
 }
