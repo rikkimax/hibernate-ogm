@@ -169,6 +169,12 @@ public class MongoDBDialect implements GridDialect {
             }
         }
         // Save everything...
+        for (RowKey rowKey : atomicMap.keySet()) {
+            DBCollection collection = provider.getDatabase().getCollection(rowKey.getTable());
+            DBObject object = collection.findOne(atomicMap.get("_ID"));
+            object.putAll(atomicMap.get(rowKey));
+            collection.save(object);
+        }
     }
 
     public void removeAssociation(AssociationKey key) {
@@ -203,6 +209,7 @@ public class MongoDBDialect implements GridDialect {
     }
 
     private void applyTupleOpsOnMap(Tuple tuple, Map<String, Object> map) {
+        Object id = map.get("_ID");
         for (TupleOperation action : tuple.getOperations()) {
             switch (action.getType()) {
                 case PUT_NULL:
@@ -214,5 +221,6 @@ public class MongoDBDialect implements GridDialect {
                     break;
             }
         }
+        map.put("_ID", id);
     }
 }
